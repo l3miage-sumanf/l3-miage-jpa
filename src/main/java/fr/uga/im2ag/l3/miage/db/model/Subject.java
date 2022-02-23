@@ -1,11 +1,27 @@
 package fr.uga.im2ag.l3.miage.db.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import java.util.Date;
 
 // TODO ajouter une named query pour une des requêtes à faire dans le repository
+@Entity
+@Table(name="Subject")
+@NamedQueries({
+    @NamedQuery(name="Subject.getAll", query="SELECT s from Subject s")
+    //@NamedQuery(name="Subject.findTeacher", query="select t from Teacher t where t.teaching = :subject")
+})
 public class Subject {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer points;

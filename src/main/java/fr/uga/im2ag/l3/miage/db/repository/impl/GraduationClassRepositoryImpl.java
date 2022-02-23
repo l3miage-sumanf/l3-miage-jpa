@@ -1,5 +1,6 @@
 package fr.uga.im2ag.l3.miage.db.repository.impl;
 
+import fr.uga.im2ag.l3.miage.db.repository.api.GradeRepository;
 import fr.uga.im2ag.l3.miage.db.repository.api.GraduationClassRepository;
 import fr.uga.im2ag.l3.miage.db.model.GraduationClass;
 
@@ -14,8 +15,7 @@ public class GraduationClassRepositoryImpl extends BaseRepositoryImpl implements
 
     @Override
     public GraduationClass findByYearAndName(Integer year, String name) {
-        // TODO
-        return null;
+        return entityManager.createNamedQuery("Grade.findHighestGradesBySubject", GraduationClass.class).setParameter("year", year).setParameter("name", name).getSingleResult();
     }
 
     @Override
@@ -30,13 +30,11 @@ public class GraduationClassRepositoryImpl extends BaseRepositoryImpl implements
 
     @Override
     public GraduationClass findById(Long id) {
-        // TODO
-        return null;
+        return entityManager.find(GraduationClass.class, id);
     }
 
     @Override
     public List<GraduationClass> getAll() {
-        // TODO
-        return null;
+        return entityManager.createNamedQuery("GraduationClass.getAll", GraduationClass.class).getResultList();
     }
 }

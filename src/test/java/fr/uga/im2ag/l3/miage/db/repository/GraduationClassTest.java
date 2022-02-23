@@ -5,6 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class GraduationClassTest extends Base {
 
     GraduationClassRepository classRepository;
@@ -23,13 +25,34 @@ class GraduationClassTest extends Base {
 
     @Test
     void shouldSaveClass() {
-        // TODO
+        
+        final var graduationClass = Fixtures.createClass();
+
+        entityManager.getTransaction().begin();
+        classRepository.save(graduationClass);
+        entityManager.getTransaction().commit();
+        entityManager.detach(graduationClass);
+
+        var pgraduationClass = classRepository.findById(graduationClass.getId());
+        assertThat(pgraduationClass).isNotNull().isNotSameAs(graduationClass);
+        assertThat(pgraduationClass.getName()).isEqualTo(graduationClass.getName());
     }
 
 
     @Test
     void shouldFindByYearAndName() {
-        // TODO
+        final var graduationClass = Fixtures.createClass();
+        graduationClass.setName("SPC");
+        graduationClass.setYear(2020);
+
+        entityManager.getTransaction().begin();
+        classRepository.save(graduationClass);
+        entityManager.getTransaction().commit();
+        entityManager.detach(graduationClass);
+
+        var pgraduationClass = classRepository.findByYearAndName(2020,"SPC");
+        assertThat(pgraduationClass).isNotNull().isNotSameAs(graduationClass);
+        assertThat(pgraduationClass.getName()).isEqualTo(graduationClass.getName());
     }
 
 }

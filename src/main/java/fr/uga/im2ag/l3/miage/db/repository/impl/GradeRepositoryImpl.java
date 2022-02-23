@@ -18,16 +18,14 @@ public class GradeRepositoryImpl extends BaseRepositoryImpl implements GradeRepo
         super(entityManager);
     }
 
-    @Override
-    public List<Grade> findHighestGrades(int limit) {
-        // TODO
-        return null;
+   @Override
+    public List<Grade> findHighestGrades(float limit) {
+        return entityManager.createNamedQuery("Grade.findHighestGrades", Grade.class).setParameter("limite", limit).getResultList();
     }
 
     @Override
-    public List<Grade> findHighestGradesBySubject(int limit, Subject subject) {
-        // TODO
-        return null;
+    public List<Grade> findHighestGradesBySubject(float limit, Subject subject) {
+        return entityManager.createNamedQuery("Grade.findHighestGradesBySubject", Grade.class).setParameter("limite", limit).setParameter("subject", subject).getResultList();
     }
 
     @Override
@@ -42,12 +40,11 @@ public class GradeRepositoryImpl extends BaseRepositoryImpl implements GradeRepo
 
     @Override
     public Grade findById(Long id) {
-        return null;
+        return entityManager.find(Grade.class, id);
     }
 
     @Override
     public List<Grade> getAll() {
-        // TODO
-        return null;
+        return entityManager.createNamedQuery("Grade.getAll", Grade.class).getResultList();
     }
 }
