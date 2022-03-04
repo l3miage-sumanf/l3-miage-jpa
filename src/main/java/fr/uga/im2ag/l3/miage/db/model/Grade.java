@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table(name="Grade")
 @NamedQueries({
     @NamedQuery(name="Grade.getAll", query="SELECT g from Grade g "),
-    @NamedQuery(name="Grade.findHighestGrades", query="SELECT g from Grade g WHERE g.value >= :limite"),
-    @NamedQuery(name="Grade.findHighestGradesBySubject", query="SELECT g from Grade g WHERE g.value >= :limite and subject = :subject")
+    @NamedQuery(name="Grade.findHighestGrades", query="SELECT g from Grade g WHERE g.value = (SELECT max(gg.value) from Grade gg)"),
+    @NamedQuery(name="Grade.findHighestGradesBySubject", query="SELECT g from Grade g WHERE g.subject = :subject and g.value = (SELECT max(gg.value) from Grade gg WHERE gg.subject = :subject)")
     //@NamedQuery(name="Subject.findTeacher", query="select t from Teacher t where t.teaching = :subject")
 })
 public class Grade {
@@ -26,7 +26,7 @@ public class Grade {
     private Long id;
     @OneToOne
     private Subject subject;
-    @Column(name = "grade")
+    @Column(name = "grade", updatable = false)
     private Float value;
     private Float weight;
 

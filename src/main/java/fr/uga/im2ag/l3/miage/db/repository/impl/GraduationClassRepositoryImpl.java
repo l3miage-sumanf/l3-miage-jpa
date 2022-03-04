@@ -15,7 +15,7 @@ public class GraduationClassRepositoryImpl extends BaseRepositoryImpl implements
 
     @Override
     public GraduationClass findByYearAndName(Integer year, String name) {
-        return entityManager.createNamedQuery("Grade.findHighestGradesBySubject", GraduationClass.class).setParameter("year", year).setParameter("name", name).getSingleResult();
+        return entityManager.createNamedQuery("GraduationClass.findByYearAndName", GraduationClass.class).setParameter("year", year).setParameter("name", name).getSingleResult();
     }
 
     @Override

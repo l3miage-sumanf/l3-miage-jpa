@@ -3,6 +3,7 @@ package fr.uga.im2ag.l3.miage.db.repository.api;
 import fr.uga.im2ag.l3.miage.db.model.Grade;
 import fr.uga.im2ag.l3.miage.db.model.Subject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface GradeRepository extends Repository<Grade, Long> {
@@ -12,7 +13,7 @@ public interface GradeRepository extends Repository<Grade, Long> {
      * @param limit number of grades to return
      * @return a list of the nth best grades
      */
-    List<Grade> findHighestGrades(float limit);
+    List<Grade> findHighestGrades(int limit);
 
 
 
@@ -21,6 +22,9 @@ public interface GradeRepository extends Repository<Grade, Long> {
      * @param limit number of grades to return
      * @return a list of the nth best grades for the subject
      */
-    List<Grade> findHighestGradesBySubject(float limit, Subject subject);
+    List<Grade> findHighestGradesBySubject(int limit, Subject subject);
+
+
+
 
 }

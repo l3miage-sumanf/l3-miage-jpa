@@ -8,26 +8,33 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import java.util.Date;
 
 // TODO ajouter une named query pour une des requêtes à faire dans le repository
 @Entity
-@Table(name="Subject")
+@Table(name="Subject" , uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"name"})
+})
 @NamedQueries({
-    @NamedQuery(name="Subject.getAll", query="SELECT s from Subject s")
-    //@NamedQuery(name="Subject.findTeacher", query="select t from Teacher t where t.teaching = :subject")
+    @NamedQuery(name="Subject.getAll", query="SELECT s from Subject s"),
+    @NamedQuery(name="Subject.findTeacher", query="select t from Teacher t join t.teaching s where s.id = :id")
 })
 public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Integer points;
+    @Column(nullable = false)
     private Float hours;
+    @Column(nullable = false)
     private Date start;
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     private Date end;
 
     public Long getId() {

@@ -49,7 +49,23 @@ class GradeTest extends Base {
 
     @Test
     void shouldFailUpgradeGrade() {
-        // TODO, ici tester que la mise à jour n'a pas eu lieu.
+        var grade = Fixtures.createGrade(null);
+        grade.setValue(15f);
+
+        entityManager.getTransaction().begin();
+        gradeRepository.save(grade);
+        grade.setValue(4f);
+        gradeRepository.save(grade);
+        entityManager.getTransaction().commit();
+        
+        entityManager.detach(grade);
+
+        
+
+        gradeRepository.getAll().forEach((gradeTMP) -> {
+            assertThat(gradeTMP.getValue()).isNotEqualTo(4f);    
+        });
+
     }
 
     @Test
@@ -58,19 +74,19 @@ class GradeTest extends Base {
         subjectRepository.save(subject);
 
         final var grade1 = Fixtures.createGrade(subject);
-        grade1.setValue(13f);
+        grade1.setValue(14f);
 
         final var grade2 = Fixtures.createGrade(subject);
         grade2.setValue(11f);
 
         final var grade3 = Fixtures.createGrade(subject);
-        grade3.setValue(12f);
+        grade3.setValue(14f);
 
         final var grade4 = Fixtures.createGrade(subject);
-        grade4.setValue(13f);
+        grade4.setValue(14f);
 
         final var grade5 = Fixtures.createGrade(subject);
-        grade5.setValue(12f);
+        grade5.setValue(14f);
 
         entityManager.getTransaction().begin();
         gradeRepository.save(grade1);
@@ -86,8 +102,8 @@ class GradeTest extends Base {
         entityManager.detach(grade5);
 
 
-        var pLGrade = gradeRepository.findHighestGrades(12);
-        assertThat(pLGrade.size()).isEqualTo(4);
+        var pLGrade = gradeRepository.findHighestGrades(3);
+        assertThat(pLGrade.size()).isEqualTo(3);
     }
 
     @Test
@@ -112,23 +128,53 @@ class GradeTest extends Base {
         final var grade5 = Fixtures.createGrade(subject);
         grade5.setValue(12f);
 
+        final var grade6 = Fixtures.createGrade(subject);
+        grade6.setValue(13f);
+
+        final var grade7 = Fixtures.createGrade(subject);
+        grade7.setValue(13f);
+
+        final var grade8 = Fixtures.createGrade(subject);
+        grade8.setValue(13f);
+
+        final var grade9 = Fixtures.createGrade(subject2);
+        grade9.setValue(13f);
+
+        final var grade10 = Fixtures.createGrade(subject2);
+        grade10.setValue(13f);
+
+        final var grade11 = Fixtures.createGrade(subject2);
+        grade11.setValue(13f);
+
         entityManager.getTransaction().begin();
         gradeRepository.save(grade1);
         gradeRepository.save(grade2);
         gradeRepository.save(grade3);
         gradeRepository.save(grade4);
         gradeRepository.save(grade5);
+        gradeRepository.save(grade6);
+        gradeRepository.save(grade7);
+        gradeRepository.save(grade8);
+        gradeRepository.save(grade9);
+        gradeRepository.save(grade10);
+        gradeRepository.save(grade11);
         entityManager.getTransaction().commit();
         entityManager.detach(grade1);
         entityManager.detach(grade2);
         entityManager.detach(grade3);
         entityManager.detach(grade4);
         entityManager.detach(grade5);
+        entityManager.detach(grade6);
+        entityManager.detach(grade7);
+        entityManager.detach(grade8);
+        entityManager.detach(grade9);
+        entityManager.detach(grade10);
+        entityManager.detach(grade11);
 
 
-        var pLGrade = gradeRepository.findHighestGradesBySubject(12, subject);
-        assertThat(pLGrade.size()).isEqualTo(2);
-        var pLGrade2 = gradeRepository.findHighestGradesBySubject(11, subject2);
+        var pLGrade = gradeRepository.findHighestGradesBySubject(3, subject);
+        assertThat(pLGrade.size()).isEqualTo(3);
+        var pLGrade2 = gradeRepository.findHighestGradesBySubject(2, subject2);
         assertThat(pLGrade2.size()).isEqualTo(2);
     }
 

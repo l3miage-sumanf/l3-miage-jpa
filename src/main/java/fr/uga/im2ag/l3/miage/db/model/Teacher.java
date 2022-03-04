@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -12,6 +14,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Teacher")
+@NamedQueries({
+    @NamedQuery(name="Teacher.getAll", query="SELECT t from Teacher t "),
+    @NamedQuery(name="Teacher.findHeadingGraduationClassByYearAndName", query="SELECT t from Teacher t JOIN t.heading gc WHERE gc.name = :name and gc.year = :year  ")
+})
 // TODO ajouter une named query pour une des requêtes à faire dans le repository
 public class Teacher extends Person {
 
